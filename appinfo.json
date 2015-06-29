@@ -7,7 +7,14 @@
     "longName": "Blocks",
     "projectType": "native",
     "resources": {
-        "media": []
+        "media": [
+            {
+                "file": "images/blocks.png",
+                "menuIcon": true,
+                "name": "icon",
+                "type": "png"
+            }
+        ]
     },
     "sdkVersion": "3",
     "shortName": "Blocks",
