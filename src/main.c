@@ -31,6 +31,8 @@ void draw_boxes_on_layer(Layer *layer, GContext *ctx)
     int width = 144 / 3;
     int height = 168 / 4;
     
+    int __w, __h;
+    
     graphics_context_set_fill_color(ctx, pm ? GColorBlack : GColorWhite);
 
     for (int i = 0; i < _h; i++) {
@@ -52,9 +54,9 @@ void draw_boxes_on_layer(Layer *layer, GContext *ctx)
     int height_m = 42 / 2;
 
     for (int i = 0; i < _m; i++) {
-        int __w = x_m < 2*width_m ? -1 : 0; 
-        int __h = y_m < 1*height ? -1 : 0; 
-        graphics_fill_rect(ctx, GRect(x + x_m, y + y_m, width_m + __w, height__m + _h), 0, GCornerNone);
+        int __w = x < 2*width || x_m < 2*width_m ? -1 : 0; 
+        int __h = y < 3*height || y_m < 1*height_m ? -1 : 0; 
+        graphics_fill_rect(ctx, GRect(x + x_m, y + y_m, width_m + __w, height_m + __h), 0, GCornerNone);
         x_m += width_m;
         
         if (x_m >= 3*width_m) {
