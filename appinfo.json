@@ -1,0 +1,23 @@
+{
+    "appKeys": {},
+    "capabilities": [
+        ""
+    ],
+    "companyName": "bin\u00e4rraum",
+    "longName": "Blocks",
+    "projectType": "native",
+    "resources": {
+        "media": []
+    },
+    "sdkVersion": "3",
+    "shortName": "Blocks",
+    "targetPlatforms": [
+        "aplite",
+        "basalt"
+    ],
+    "uuid": "182c6c5a-22b2-42f1-88ac-88d0b49cdbeb",
+    "versionLabel": "1.0",
+    "watchapp": {
+        "watchface": true
+    }
+}
