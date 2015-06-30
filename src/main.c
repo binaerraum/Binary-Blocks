@@ -5,14 +5,13 @@
 
 #include <pebble.h>
 
-Window *my_window;
-Layer *box_layer;
+static Window *s_main_window;
+static Layer *s_box_layer;
 
-void draw_boxes_on_layer(Layer *layer, GContext *ctx) 
+static void draw_boxes_on_layer(Layer *layer, GContext *ctx) 
 {
     time_t temp = time(NULL);
     struct tm *tick_time = localtime(&temp);
-
     int m = tick_time->tm_min;
     int h = tick_time->tm_hour;
     bool pm = h >= 12;
@@ -30,8 +29,6 @@ void draw_boxes_on_layer(Layer *layer, GContext *ctx)
     int y = 0;
     int width = 144 / 3;
     int height = 168 / 4;
-    
-    int __w, __h;
     
     graphics_context_set_fill_color(ctx, pm ? GColorBlack : GColorWhite);
 
@@ -66,41 +63,43 @@ void draw_boxes_on_layer(Layer *layer, GContext *ctx)
     }
 }
 
-void main_window_load(Window *window)
+static void main_window_load(Window *window)
 {
     window_set_background_color(window, GColorBlack);
     
-    box_layer = layer_create(GRect(0, 0, 144, 168));
-    layer_add_child(window_get_root_layer(window), box_layer);
-    layer_set_update_proc(box_layer, &draw_boxes_on_layer);
+    s_box_layer = layer_create(GRect(0, 0, 144, 168));
+    layer_add_child(window_get_root_layer(window), s_box_layer);
+    layer_set_update_proc(s_box_layer, &draw_boxes_on_layer);
 }
 
-void main_window_unload(Window *window) 
+static void main_window_unload(Window *window) 
 {
-    layer_destroy(box_layer);
+    layer_destroy(s_box_layer);
 }
 
-void tick_handler(struct tm *tick_time, TimeUnits units_changed) 
-{    
-    layer_mark_dirty(box_layer);
+static void tick_handler(struct tm *tick_time, TimeUnits units_changed) 
+{   
+    if (tick_time->tm_min % 10 == 0) {
+        layer_mark_dirty(s_box_layer);
+    }
 }
 
-void init(void) 
+static void init(void) 
 {
-    my_window = window_create();
+    s_main_window = window_create();
     
-    window_set_window_handlers(my_window, (WindowHandlers) {
+    window_set_window_handlers(s_main_window, (WindowHandlers) {
         .load = main_window_load,
         .unload = main_window_unload
     });
 
     tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
-    window_stack_push(my_window, true);
+    window_stack_push(s_main_window, true);
 }
 
-void deinit(void) 
+static void deinit(void) 
 {
-    window_destroy(my_window);
+    window_destroy(s_main_window);
 }
 
 int main(void) 
