@@ -14,9 +14,15 @@ static void draw_boxes_on_layer(Layer *layer, GContext *ctx)
     struct tm *tick_time = localtime(&temp);
     int m = tick_time->tm_min;
     int h = tick_time->tm_hour;
+    
     bool pm = h >= 12;
     int _h = h % 12;
     int _m = ((m % 60) / 10);
+    
+    // 12 o'clock
+    if (_h + _m == 0) {
+        _h = 12;
+    }
 
     APP_LOG(APP_LOG_LEVEL_DEBUG, "Time is %i:%i (%i:%i)", h, m, _h, _m);
 
