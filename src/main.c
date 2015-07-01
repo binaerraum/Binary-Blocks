@@ -14,10 +14,9 @@ static void draw_boxes_on_layer(Layer *layer, GContext *ctx)
     struct tm *tick_time = localtime(&temp);
     int m = tick_time->tm_min;
     int h = tick_time->tm_hour;
-    
     bool pm = h >= 12;
     int _h = h % 12;
-    int _m = ((m % 60) / 10);
+    int _m = ((m % 60) / 5);
     
     // 12 o'clock
     if (_h + _m == 0) {
@@ -39,32 +38,32 @@ static void draw_boxes_on_layer(Layer *layer, GContext *ctx)
     graphics_context_set_fill_color(ctx, pm ? GColorBlack : GColorWhite);
 
     for (int i = 0; i < _h; i++) {
-        int __w = x < 2*width ? -1 : 0; 
-        int __h = y < 3*height ? -1 : 0; 
-        graphics_fill_rect(ctx, GRect(x, y, width + __w, height + __h), 0, GCornerNone);        
-        x += width;
+        int __w = x < 2 ? -1 : 0; 
+        int __h = y < 3 ? -1 : 0;
         
-        if (x >= 3*width) {
+        graphics_fill_rect(ctx, GRect(x*width, y*height, width + __w, height + __h), 0, GCornerNone);        
+        
+        if (++x >= 3) {
             x = 0;
-            y += height;
+            y++;
         }
     }
 
     // Draw m boxes
     int x_m = 0;
     int y_m = 0;
-    int width_m = 48 / 3;
-    int height_m = 42 / 2;
+    int width_m = 48 / 4;
+    int height_m = 42 / 3;
 
     for (int i = 0; i < _m; i++) {
-        int __w = x < 2*width || x_m < 2*width_m ? -1 : 0; 
-        int __h = y < 3*height || y_m < 1*height_m ? -1 : 0; 
-        graphics_fill_rect(ctx, GRect(x + x_m, y + y_m, width_m + __w, height_m + __h), 0, GCornerNone);
-        x_m += width_m;
+        int __w = x < 2 || x_m < 3 ? -1 : 0; 
+        int __h = y < 3 || y_m < 2 ? -1 : 0; 
+
+        graphics_fill_rect(ctx, GRect(x*width + x_m*width_m, y*height + y_m*height_m, width_m + __w, height_m + __h), 0, GCornerNone);
         
-        if (x_m >= 3*width_m) {
+        if (++x_m >= 4) {
             x_m = 0;
-            y_m += height_m;
+            y_m++;
         }
     }
 }
@@ -85,7 +84,7 @@ static void main_window_unload(Window *window)
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) 
 {   
-    if (tick_time->tm_min % 10 == 0) {
+    if (tick_time->tm_min % 5 == 0) {
         layer_mark_dirty(s_box_layer);
     }
 }
@@ -100,6 +99,7 @@ static void init(void)
     });
 
     tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
+    
     window_stack_push(s_main_window, true);
 }
 
