@@ -1,6 +1,6 @@
 /* Boxes Pebble Watchface
  * pg@binaerraum.de
- * 1.0 (29.06'15)
+ * 1.1 (01.07'15)
  */
 
 #include <pebble.h>
