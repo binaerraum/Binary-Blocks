@@ -61,9 +61,9 @@ static void draw_boxes_on_layer(Layer *layer, GContext *ctx)
 
         graphics_fill_rect(ctx, GRect(x*width + x_m*width_m, y*height + y_m*height_m, width_m + __w, height_m + __h), 0, GCornerNone);
         
-        if (++x_m >= 4) {
-            x_m = 0;
-            y_m++;
+        if (++y_m >= 3) {
+            y_m = 0;
+            x_m++;
         }
     }
 }
