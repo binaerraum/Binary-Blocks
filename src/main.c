@@ -14,6 +14,7 @@ static void draw_boxes_on_layer(Layer *layer, GContext *ctx)
     struct tm *tick_time = localtime(&temp);
     int m = tick_time->tm_min;
     int h = tick_time->tm_hour;
+    
     bool pm = h >= 12;
     int _h = h % 12;
     int _m = ((m % 60) / 5);
@@ -38,10 +39,10 @@ static void draw_boxes_on_layer(Layer *layer, GContext *ctx)
     graphics_context_set_fill_color(ctx, pm ? GColorBlack : GColorWhite);
 
     for (int i = 0; i < _h; i++) {
-        int __w = x < 2 ? -1 : 0; 
-        int __h = y < 3 ? -1 : 0;
+        int __w = x < 2 ? -1 : -2; 
+        int __h = y < 3 ? -1 : -2;
         
-        graphics_fill_rect(ctx, GRect(x*width, y*height, width + __w, height + __h), 0, GCornerNone);        
+        graphics_fill_rect(ctx, GRect(x*width + 1, y*height + 1, width + __w, height + __h), 0, GCornerNone);        
         
         if (++x >= 3) {
             x = 0;
@@ -56,10 +57,10 @@ static void draw_boxes_on_layer(Layer *layer, GContext *ctx)
     int height_m = 42 / 3;
 
     for (int i = 0; i < _m; i++) {
-        int __w = x < 2 || x_m < 3 ? -1 : 0; 
-        int __h = y < 3 || y_m < 2 ? -1 : 0; 
+        int __w = x < 2 || x_m < 3 ? -1 : -2; 
+        int __h = y < 3 || y_m < 2 ? -1 : -2; 
 
-        graphics_fill_rect(ctx, GRect(x*width + x_m*width_m, y*height + y_m*height_m, width_m + __w, height_m + __h), 0, GCornerNone);
+        graphics_fill_rect(ctx, GRect(x*width + x_m*width_m + 1, y*height + y_m*height_m + 1, width_m + __w, height_m + __h), 0, GCornerNone);
         
         if (++y_m >= 3) {
             y_m = 0;
