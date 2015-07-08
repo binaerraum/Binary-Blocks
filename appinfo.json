@@ -4,7 +4,7 @@
         ""
     ],
     "companyName": "bin\u00e4rraum",
-    "longName": "Blocks",
+    "longName": "Binary Blocks",
     "projectType": "native",
     "resources": {
         "media": [
@@ -23,7 +23,7 @@
         "basalt"
     ],
     "uuid": "182c6c5a-22b2-42f1-88ac-88d0b49cdbeb",
-    "versionLabel": "1.3",
+    "versionLabel": "1.4",
     "watchapp": {
         "watchface": true
     }
